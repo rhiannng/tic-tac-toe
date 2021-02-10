@@ -1,19 +1,16 @@
-# Calculator
+# Tic-Tac-Toe
 
 ## *Project Description*
 
-This application will calculate math operations given the inputs by the user. The user is someone who needs to make 
-quick calculations and use math operations for their various needs. This project interests me because I want to 
-understand how a calculator operates since I use one every day. It also interests me something as simple as a calculator
-isn't as simple as it seems, and this project will be a good way for me to learn Java and exercise the concepts I have
-learnt in computer science so far.
+This application allows the user to play the game tic-tac-toe against the computer. The player will always start and
+play as "X", while the computer plays "O". The user will be someone who likes to play tic-tac-toe. This project
+interests me because tic-tac-toe is an interesting game and I want to take the skills I have learnt and apply it into
+this project, furthering my skills and knowledge as well.
 
 ## *User Stories*
 As a user, I want to be able to...
 
-- add one number to another number
-- subtract one number from another number
-- multiply two numbers together
-- divide two numbers
-- calculate an exponent
-- find the square root of a number
+- place an "X" at a specific position on the board
+- have the computer make a move against me
+- know if I won
+- know if the computer won
