@@ -18,15 +18,15 @@ public class Board {
     //MODIFIES: position1-9, availablePositions
     //EFFECTS: instantiates position1-9 & availablePositions, adds position1-9 to availablePositions
     public Board() {
-        position1 = new Position("");
-        position2 = new Position("");
-        position3 = new Position("");
-        position4 = new Position("");
-        position5 = new Position("");
-        position6 = new Position("");
-        position7 = new Position("");
-        position8 = new Position("");
-        position9 = new Position("");
+        position1 = new Position("","1");
+        position2 = new Position("","2");
+        position3 = new Position("","3");
+        position4 = new Position("","4");
+        position5 = new Position("","5");
+        position6 = new Position("","6");
+        position7 = new Position("","7");
+        position8 = new Position("","8");
+        position9 = new Position("","9");
         availablePositions = new ArrayList<>();
         availablePositions.add(position1);
         availablePositions.add(position2);
@@ -43,34 +43,51 @@ public class Board {
     //MODIFIES: position1-9, availablePositions
     //EFFECTS : marks the specified position with "X", removes position from availablePositions
     public void playerMakesAMove(String playerMove) {
-        if (playerMove.equals("1")) {
-            position1.fillPositionX();
-            availablePositions.remove(position1);
-        } else if (playerMove.equals("2")) {
-            position2.fillPositionX();
-            availablePositions.remove(position2);
-        } else if (playerMove.equals("3")) {
-            position3.fillPositionX();
-            availablePositions.remove(position3);
-        } else if (playerMove.equals("4")) {
-            position4.fillPositionX();
-            availablePositions.remove(position4);
-        } else if (playerMove.equals("5")) {
-            position5.fillPositionX();
-            availablePositions.remove(position5);
-        } else if (playerMove.equals("6")) {
-            position6.fillPositionX();
-            availablePositions.remove(position6);
-        } else if (playerMove.equals("7")) {
-            position7.fillPositionX();
-            availablePositions.remove(position7);
-        } else if (playerMove.equals("8")) {
-            position8.fillPositionX();
-            availablePositions.remove(position8);
-        } else if (playerMove.equals("9")) {
-            position9.fillPositionX();
-            availablePositions.remove(position9);
+        Position nextPosition;
+        nextPosition = stringToPosition(playerMove);
+        nextPosition.fillPositionX();
+        availablePositions.remove(nextPosition);
+    }
+
+    //REQUIRES: string corresponds to an available position's positionNumber
+    //EFFECTS: returns Position with corresponding positionNumber
+    public Position stringToPosition(String s) {
+        Position nextPos = new Position("","");
+        for (int i = 0; i < availablePositions.size(); i++) {
+            Position p = availablePositions.get(i);
+            if (p.positionNumber.equals(s)) {
+                nextPos = p;
+                i = availablePositions.size();
+            }
         }
+        return nextPos;
+    }
+
+    //EFFECTS:  returns true if the move corresponds to a position
+    public boolean isAValidMove(String s) {
+        boolean b = false;
+        for (int i = 1; i < 10; i++) {
+            String str = Integer.toString(i);
+            if (str.equals(s)) {
+                i = 10;
+                b = true;
+            }
+        }
+        return b;
+    }
+
+    //REQUIRES: the move is a valid move
+    //EFFECTS : returns true if the move corresponds to a position is in availablePositions
+    public boolean isAnAvailableMove(String s) {
+        boolean b = false;
+        for (int i = 0; i < availablePositions.size(); i++) {
+            Position p = availablePositions.get(i);
+            if (p.positionNumber.equals(s)) {
+                i = availablePositions.size();
+                b = true;
+            }
+        }
+        return b;
     }
 
     //MODIFIES: nextPosition, position1-9, availablePositions

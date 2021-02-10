@@ -13,7 +13,7 @@ class BoardTest {
     }
 
     @Test
-    void constructorTest(){
+    void constructorTest() {
         assertEquals(b.availablePositions.size(),9);
         assertEquals("",b.position1.symbol);
         assertEquals("",b.position2.symbol);
@@ -27,7 +27,7 @@ class BoardTest {
     }
 
     @Test
-    void playerMakesAMoveTest(){
+    void playerMakesAMoveTest() {
         b.playerMakesAMove("1");
         b.playerMakesAMove("9");
         b.playerMakesAMove("8");
@@ -41,7 +41,42 @@ class BoardTest {
     }
 
     @Test
-    void moveAgainstPlayerTest(){
+    void stringToPositionTest() {
+        assertEquals(b.position1 ,b.stringToPosition("1"));
+        assertEquals(b.position2 ,b.stringToPosition("2"));
+        assertEquals(b.position9 ,b.stringToPosition("9"));
+        assertNotEquals(b.position6 ,b.stringToPosition("7"));
+        assertNotEquals(b.position5 ,b.stringToPosition("8"));
+    }
+
+    @Test
+    void isAValidMoveTest() {
+        assertTrue(b.isAValidMove("1"));
+        assertTrue(b.isAValidMove("9"));
+        assertTrue(b.isAValidMove("8"));
+        assertTrue(b.isAValidMove("7"));
+        assertFalse(b.isAValidMove(""));
+        assertFalse(b.isAValidMove("apple"));
+        assertFalse(b.isAValidMove("0"));
+    }
+
+    @Test
+    void isAnAvailableMoveTest() {
+        b.playerMakesAMove("3");
+        b.playerMakesAMove("9");
+
+        assertTrue(b.isAnAvailableMove("1"));
+        assertTrue(b.isAnAvailableMove("4"));
+        assertFalse(b.isAnAvailableMove("3"));
+        assertFalse(b.isAnAvailableMove("9"));
+
+        b.playerMakesAMove("1");
+
+        assertFalse(b.isAnAvailableMove("1"));
+    }
+
+    @Test
+    void moveAgainstPlayerTest() {
         b.playerMakesAMove("2");
         b.moveAgainstPlayer();
         b.moveAgainstPlayer();
@@ -53,7 +88,7 @@ class BoardTest {
     //not sure how to test this formally......
     //did run some tests to see what input was given each time so it does do the job!
     @Test
-    void getRandomAvailablePositionTest(){
+    void getRandomAvailablePositionTest() {
         b.playerMakesAMove("2");
         b.playerMakesAMove("6");
 
