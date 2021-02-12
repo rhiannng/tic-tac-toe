@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+//represents a tic-tac-toe board with corresponding positions
 public class Board {
     Position position1;
     Position position2;
@@ -13,10 +14,11 @@ public class Board {
     Position position7;
     Position position8;
     Position position9;
+    ArrayList<Position> allPositions;
     ArrayList<Position> availablePositions;
 
-    //MODIFIES: position1-9, availablePositions
-    //EFFECTS: instantiates position1-9 & availablePositions, adds position1-9 to availablePositions
+    //MODIFIES: position1-9, availablePositions, allPositions
+    //EFFECTS : creates position1-9 and adds them to availablePositions & allPositions which are also instantiated
     public Board() {
         position1 = new Position("","1");
         position2 = new Position("","2");
@@ -27,16 +29,26 @@ public class Board {
         position7 = new Position("","7");
         position8 = new Position("","8");
         position9 = new Position("","9");
+
+        allPositions = new ArrayList<>();
+        setUpList(allPositions);
+
         availablePositions = new ArrayList<>();
-        availablePositions.add(position1);
-        availablePositions.add(position2);
-        availablePositions.add(position3);
-        availablePositions.add(position4);
-        availablePositions.add(position5);
-        availablePositions.add(position6);
-        availablePositions.add(position7);
-        availablePositions.add(position8);
-        availablePositions.add(position9);
+        setUpList(availablePositions);
+    }
+
+    //MODIFIES: list
+    //EFFECTS: adds all the positions in the board to the list
+    public void setUpList(ArrayList<Position> list) {
+        list.add(position1);
+        list.add(position2);
+        list.add(position3);
+        list.add(position4);
+        list.add(position5);
+        list.add(position6);
+        list.add(position7);
+        list.add(position8);
+        list.add(position9);
     }
 
     //REQUIRES: the move is available and valid
@@ -106,4 +118,14 @@ public class Board {
         return availablePositions.get(i);
     }
 
+    //EFFECTS : returns the symbol of the Position with the given positionNumber
+    public String getPositionSymbol(String posNum) {
+        String str = "";
+        for (Position p : allPositions) {
+            if (p.positionNumber.equals(posNum)) {
+                str = p.symbol;
+            }
+        }
+        return str;
+    }
 }

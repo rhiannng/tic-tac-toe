@@ -37,15 +37,4 @@ class PositionTest {
         assertEquals("O",p2.symbol);
         assertEquals("O",p3.symbol);
     }
-
-    @Test
-    void emptyPositionTest() {
-        p1.emptyPosition();
-        p2.emptyPosition();
-        p3.emptyPosition();
-
-        assertEquals("",p1.symbol);
-        assertEquals("",p2.symbol);
-        assertEquals("",p3.symbol);
-    }
 }
