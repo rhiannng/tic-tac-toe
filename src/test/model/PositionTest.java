@@ -18,9 +18,9 @@ class PositionTest {
 
     @Test
     void fillPositionXTest() {
-        p1.fillPositionX();
-        p2.fillPositionX();
-        p3.fillPositionX();
+        p1.fillPositionWithX();
+        p2.fillPositionWithX();
+        p3.fillPositionWithX();
 
         assertEquals("X",p1.symbol);
         assertEquals("X",p2.symbol);
@@ -29,9 +29,9 @@ class PositionTest {
 
     @Test
     void fillPositionOTest() {
-        p1.fillPositionO();
-        p2.fillPositionO();
-        p3.fillPositionO();
+        p1.fillPositionWithO();
+        p2.fillPositionWithO();
+        p3.fillPositionWithO();
 
         assertEquals("O",p1.symbol);
         assertEquals("O",p2.symbol);

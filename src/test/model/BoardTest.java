@@ -115,8 +115,8 @@ class BoardTest {
     void getPositionSymbolTest() {
         b.playerMakesAMove("3");
         b.playerMakesAMove("4");
-        b.position1.fillPositionO();
-        b.position6.fillPositionO();
+        b.position1.fillPositionWithO();
+        b.position6.fillPositionWithO();
 
         String p1 = b.getPositionSymbol("1");
         String p2 = b.getPositionSymbol("2");

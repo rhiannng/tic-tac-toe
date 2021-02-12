@@ -57,7 +57,7 @@ public class Board {
     public void playerMakesAMove(String playerMove) {
         Position nextPosition;
         nextPosition = stringToPosition(playerMove);
-        nextPosition.fillPositionX();
+        nextPosition.fillPositionWithX();
         availablePositions.remove(nextPosition);
     }
 
@@ -107,7 +107,7 @@ public class Board {
     public void moveAgainstPlayer() {
         Position nextPosition;
         nextPosition = getRandomAvailablePosition();
-        nextPosition.fillPositionO();
+        nextPosition.fillPositionWithO();
         availablePositions.remove(nextPosition);
     }
 
