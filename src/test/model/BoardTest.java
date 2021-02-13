@@ -310,6 +310,52 @@ class BoardTest {
     }
 
     @Test
+    void checkTieTestNoMovesLeftBothWin() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove(b.position7);
+        b.availablePositions.remove(b.position8);
+        b.availablePositions.remove(b.position9);
+
+        b.position1.fillPositionWithX();
+        b.position2.fillPositionWithX();
+        b.position3.fillPositionWithX();
+        b.position7.fillPositionWithX();
+        b.position9.fillPositionWithX();
+
+        b.position4.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position6.fillPositionWithO();
+        b.position8.fillPositionWithO();
+
+        assertFalse(b.checkTie());
+    }
+
+    @Test
+    void checkTieTestSomeMovesLeftBothWin() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position6);
+
+        b.position1.fillPositionWithX();
+        b.position2.fillPositionWithX();
+        b.position3.fillPositionWithX();
+
+        b.position4.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position6.fillPositionWithO();
+
+        assertFalse(b.checkTie());
+    }
+
+    @Test
     void checkHorizontalWinTestFirstRow(){
         b.position1.fillPositionWithX();
         b.position2.fillPositionWithX();
