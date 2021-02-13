@@ -134,21 +134,6 @@ class BoardTest {
     }
 
     @Test
-    void checkEndGameTestTie() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position6);
-        b.availablePositions.remove(b.position7);
-        b.availablePositions.remove(b.position8);
-        b.availablePositions.remove(b.position9);
-
-        assertTrue(b.checkEndGame());
-    }
-
-    @Test
     void checkEndGameTestXWins() {
         b.position1.fillPositionWithX();
         b.position5.fillPositionWithX();
@@ -162,6 +147,21 @@ class BoardTest {
         b.position3.fillPositionWithO();
         b.position5.fillPositionWithO();
         b.position7.fillPositionWithO();
+
+        assertTrue(b.checkEndGame());
+    }
+
+    @Test
+    void checkEndGameTestTie() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove(b.position7);
+        b.availablePositions.remove(b.position8);
+        b.availablePositions.remove(b.position9);
 
         assertTrue(b.checkEndGame());
     }
