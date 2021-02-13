@@ -15,15 +15,15 @@ class BoardTest {
     @Test
     void constructorTest() {
         //checks that symbols are initialized correctly
-        assertEquals("",b.position1.symbol);
-        assertEquals("",b.position2.symbol);
-        assertEquals("",b.position3.symbol);
-        assertEquals("",b.position4.symbol);
-        assertEquals("",b.position5.symbol);
-        assertEquals("",b.position6.symbol);
-        assertEquals("",b.position7.symbol);
-        assertEquals("",b.position8.symbol);
-        assertEquals("",b.position9.symbol);
+        assertEquals(" ",b.position1.symbol);
+        assertEquals(" ",b.position2.symbol);
+        assertEquals(" ",b.position3.symbol);
+        assertEquals(" ",b.position4.symbol);
+        assertEquals(" ",b.position5.symbol);
+        assertEquals(" ",b.position6.symbol);
+        assertEquals(" ",b.position7.symbol);
+        assertEquals(" ",b.position8.symbol);
+        assertEquals(" ",b.position9.symbol);
 
         //checks that the lists initialized correctly (all elements in them)
         assertEquals(9,b.availablePositions.size());
@@ -50,8 +50,8 @@ class BoardTest {
         assertEquals(b.position1.symbol, "X");
         assertEquals(b.position9.symbol, "X");
         assertEquals(b.position8.symbol, "X");
-        assertEquals(b.position2.symbol, "");
-        assertEquals(b.position5.symbol, "");
+        assertEquals(b.position2.symbol, " ");
+        assertEquals(b.position5.symbol, " ");
     }
 
     @Test
@@ -129,7 +129,234 @@ class BoardTest {
         assertEquals("X",p4);
         assertEquals("O",p1);
         assertEquals("O",p6);
-        assertEquals("",p2);
-        assertEquals("",p5);
+        assertEquals(" ",p2);
+        assertEquals(" ",p5);
+    }
+
+    @Test
+    void checkEndGameTestTie() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove(b.position7);
+        b.availablePositions.remove(b.position8);
+        b.availablePositions.remove(b.position9);
+
+        assertTrue(b.checkEndGame());
+    }
+
+    @Test
+    void checkEndGameTestXWins() {
+        b.position1.fillPositionWithX();
+        b.position5.fillPositionWithX();
+        b.position9.fillPositionWithX();
+
+        assertTrue(b.checkEndGame());
+    }
+
+    @Test
+    void checkEndGameTestOWins() {
+        b.position3.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position7.fillPositionWithO();
+
+        assertTrue(b.checkEndGame());
+    }
+
+    @Test
+    void checkEndGameTestNoEndGame() {
+        b.position1.fillPositionWithX();
+        b.position3.fillPositionWithX();
+        b.position6.fillPositionWithX();
+        b.position7.fillPositionWithX();
+
+        b.position2.fillPositionWithO();
+        b.position4.fillPositionWithO();
+        b.position5.fillPositionWithO();
+
+        assertFalse(b.checkEndGame());
+    }
+
+    @Test
+    void checkWinTestNoWinsOnBoard() {
+        assertFalse(b.checkWin("X"));
+        assertFalse(b.checkWin("O"));
+
+        b.position1.fillPositionWithO();
+        b.position3.fillPositionWithO();
+        b.position9.fillPositionWithO();
+        b.position2.fillPositionWithX();
+
+        assertFalse(b.checkWin("X"));
+        assertFalse(b.checkWin("O"));
+    }
+
+    @Test
+    void checkWinTestWinsOnBoard() {
+        b.position1.fillPositionWithX();
+        b.position2.fillPositionWithX();
+        b.position3.fillPositionWithX();
+
+        assertTrue(b.checkWin("X"));
+        assertFalse(b.checkWin("O"));
+    }
+
+    @Test
+    void checkTieTestNoMovesLeftNoWin() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove(b.position7);
+        b.availablePositions.remove(b.position8);
+        b.availablePositions.remove(b.position9);
+
+        assertTrue(b.checkTie());
+    }
+
+    @Test
+    void checkTieTestSomeMovesLeftNoWin() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position6);
+
+        assertFalse(b.checkTie());
+    }
+
+    @Test
+    void checkTieTestSomeoneWon() {
+        b.position1.fillPositionWithX();
+        b.position2.fillPositionWithX();
+        b.position3.fillPositionWithX();
+
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+
+
+        assertFalse(b.checkTie());
+    }
+
+    @Test
+    void checkHorizontalWinTestFirstRow(){
+        b.position1.fillPositionWithX();
+        b.position2.fillPositionWithX();
+        b.position3.fillPositionWithX();
+
+        assertTrue(b.checkHorizontalWin("X"));
+    }
+
+    @Test
+    void checkHorizontalWinTestSecondRow(){
+        b.position4.fillPositionWithX();
+        b.position5.fillPositionWithX();
+        b.position6.fillPositionWithX();
+
+        assertTrue(b.checkHorizontalWin("X"));
+    }
+
+    @Test
+    void checkHorizontalWinTestThirdRow(){
+        b.position7.fillPositionWithX();
+        b.position8.fillPositionWithX();
+        b.position9.fillPositionWithX();
+
+        assertTrue(b.checkHorizontalWin("X"));
+    }
+
+    @Test
+    void checkHorizontalWinTestNoWin(){
+        b.position1.fillPositionWithX();
+        b.position2.fillPositionWithX();
+        b.position4.fillPositionWithX();
+        b.position7.fillPositionWithX();
+
+        assertFalse(b.checkHorizontalWin("X"));
+    }
+
+    @Test
+    void checkVerticalWinTestFirstColumn(){
+        b.position1.fillPositionWithX();
+        b.position4.fillPositionWithX();
+        b.position7.fillPositionWithX();
+
+        assertTrue(b.checkVerticalWin("X"));
+    }
+
+    @Test
+    void checkVerticalWinTestSecondColumn(){
+        b.position2.fillPositionWithX();
+        b.position5.fillPositionWithX();
+        b.position8.fillPositionWithX();
+
+        assertTrue(b.checkVerticalWin("X"));
+    }
+
+    @Test
+    void checkVerticalWinTestThirdColumn(){
+        b.position3.fillPositionWithX();
+        b.position6.fillPositionWithX();
+        b.position9.fillPositionWithX();
+
+        assertTrue(b.checkVerticalWin("X"));
+    }
+
+    @Test
+    void checkVerticalWinTestNoWin(){
+        b.position1.fillPositionWithX();
+        b.position5.fillPositionWithX();
+        b.position9.fillPositionWithX();
+        b.position4.fillPositionWithX();
+
+        assertFalse(b.checkVerticalWin("X"));
+    }
+
+    @Test
+    void checkDiagonalWinTestDiagonalWins() {
+        b.position3.fillPositionWithX();
+        b.position5.fillPositionWithX();
+        b.position7.fillPositionWithX();
+
+        assertTrue(b.checkDiagonalWin("X"));
+
+        b.position1.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position9.fillPositionWithO();
+
+        assertTrue(b.checkDiagonalWin("O"));
+    }
+
+    @Test
+    void checkDiagonalWinTestNoDiagonal() {
+        b.position1.fillPositionWithX();
+        b.position2.fillPositionWithX();
+        b.position3.fillPositionWithX();
+
+        assertFalse(b.checkDiagonalWin("X"));
+
+        b.position1.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position7.fillPositionWithO();
+
+        assertFalse(b.checkDiagonalWin("O"));
+    }
+
+    @Test
+    void checkSameSymbolTest() {
+        String s1 = "X";
+        String s2 = "O";
+        String s3 = "apple";
+
+        assertTrue(b.checkSameSymbol(s1,s1,s1));
+        assertFalse(b.checkSameSymbol(s1,s1,s2));
+        assertFalse(b.checkSameSymbol(s1,s2,s3));
     }
 }

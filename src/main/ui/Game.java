@@ -24,7 +24,7 @@ public class Game {
             String command = input.nextLine();
 
             if (b.isAnAvailableMove(command) && b.isAValidMove(command)) {
-                playingGame(b, command);
+                keepGoing = playingGame(b,command);
 
             } else if (command.equals("q")) {
                 System.out.println("Thanks for playing!");
@@ -41,23 +41,34 @@ public class Game {
         }
     }
 
-    //REQUIRES: String command is a valid and available move
-    //MODIFIES: Board b
-    //EFFECTS : sets the player's move, sets a move against a player, and displays the board
-    public void playingGame(Board b, String command) {
+    //MODIFIES: Board b, boolean keepGoing
+    //EFFECTS : given the board and command, continues the game and checks for end game states. returns true if no
+    //          end game states have been triggered
+    public boolean playingGame(Board b, String command) {
+        boolean keepGoing = true;
         b.playerMakesAMove(command);
         displayBoard(b);
-        System.out.println("Here's my move!");
-        b.moveAgainstPlayer();
-        displayBoard(b);
+        if (b.checkEndGame()) {
+            keepGoing = false;
+            endGameSequence(b);
+        } else {
+            System.out.println("Here's my move!");
+            b.moveAgainstPlayer();
+            displayBoard(b);
+            if (b.checkEndGame()) {
+                keepGoing = false;
+                endGameSequence(b);
+            }
+        }
+        return keepGoing;
     }
 
     //EFFECTS: prints initial instruction statements
     public void displayInstructions() {
         System.out.println("Let's play Tic-tac-toe!");
         System.out.println("You will play as X. Enter a number to place the X on the corresponding position.");
-        System.out.println("If you would like quit, just type \" q \".");
-        System.out.println("If you would like to restart the game, just type \" r \".");
+        System.out.println("If you would like quit, just type \"q\".");
+        System.out.println("If you would like to restart the game, just type \"r\".");
         System.out.println("You can go first! Here is the board with the position numbers!");
     }
 
@@ -87,5 +98,24 @@ public class Game {
         System.out.println(" " + p4 + " | " + p5 + " | " + p6 + " ");
         System.out.println("---+---+---");
         System.out.println(" " + p7 + " | " + p8 + " | " + p9 + " ");
+    }
+
+    //EFFECTS: prints statements win/lose/tie statements
+    public void endGameSequence(Board b) {
+        Scanner input = new Scanner(System.in);
+
+        if (b.checkWin("X")) {
+            System.out.println("You won!");
+        } else if (b.checkWin("O")) {
+            System.out.println("You lost!");
+        } else if (b.checkTie()) {
+            System.out.println("We tied!");
+        }
+
+        System.out.println("Would you like to play again?");
+        System.out.println("Please input \"yes\" to play again, if not, press any button.");
+        if (input.nextLine().equals("yes")) {
+            runGame();
+        }
     }
 }

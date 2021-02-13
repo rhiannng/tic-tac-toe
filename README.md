@@ -15,6 +15,7 @@ As a user, I want to be able to...
 - look at the board with the Xs and Os on them
 - quit the game
 - restart the game
+- quit the game
 - know if I won
 - know if the computer won
 - know if there was a tie

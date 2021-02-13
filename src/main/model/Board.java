@@ -20,15 +20,15 @@ public class Board {
     //MODIFIES: position1-9, availablePositions, allPositions
     //EFFECTS : creates position1-9 and adds them to availablePositions & allPositions which are also instantiated
     public Board() {
-        position1 = new Position("","1");
-        position2 = new Position("","2");
-        position3 = new Position("","3");
-        position4 = new Position("","4");
-        position5 = new Position("","5");
-        position6 = new Position("","6");
-        position7 = new Position("","7");
-        position8 = new Position("","8");
-        position9 = new Position("","9");
+        position1 = new Position(" ","1");
+        position2 = new Position(" ","2");
+        position3 = new Position(" ","3");
+        position4 = new Position(" ","4");
+        position5 = new Position(" ","5");
+        position6 = new Position(" ","6");
+        position7 = new Position(" ","7");
+        position8 = new Position(" ","8");
+        position9 = new Position(" ","9");
 
         allPositions = new ArrayList<>();
         setUpList(allPositions);
@@ -127,5 +127,76 @@ public class Board {
             }
         }
         return str;
+    }
+
+    //EFFECTS: returns true if there is a tie or a win
+    public boolean checkEndGame() {
+        return checkTie() || checkWin("X") || checkWin("O");
+    }
+
+    //REQUIRES: sym is either "X" or "O"
+    //EFFECTS: returns true if the given symbol has won
+    public boolean checkWin(String sym) {
+        boolean h = checkHorizontalWin(sym);
+        boolean v = checkVerticalWin(sym);
+        boolean d = checkDiagonalWin(sym);
+
+        return h || v || d;
+    }
+
+    //EFFECTS: returns true if there are no more available positions left and no wins at all
+    public boolean checkTie() {
+        return availablePositions.size() == 0 && !checkWin("X") && !checkWin("O");
+    }
+
+    //REQUIRES: sym is either "X" or "O"
+    //EFFECTS: returns true if positions1,2,3 or positions4,5,6 or positions7,8,9 have the given string as a symbol
+    public boolean checkHorizontalWin(String sym) {
+        boolean ans = false;
+
+        if (position1.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position2.symbol, position3.symbol);
+        } else if (position4.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position5.symbol, position6.symbol);
+        } else if (position7.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position8.symbol, position9.symbol);
+        }
+
+        return ans;
+    }
+
+    //REQUIRES: sym is either "X" or "O"
+    //EFFECTS: returns true if positions1,4,7 or positions2,5,8, or positions3,6,9 have the given string as a symbol
+    public boolean checkVerticalWin(String sym) {
+        boolean ans = false;
+
+        if (position1.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position4.symbol, position7.symbol);
+        } else if (position2.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position5.symbol, position8.symbol);
+        } else if (position3.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position6.symbol, position9.symbol);
+        }
+
+        return ans;
+    }
+
+    //REQUIRES: sym is either "X" or "O"
+    //EFFECTS: returns true if positions1,5,9 or positions3,5,9 have the given string as a symbol
+    public boolean checkDiagonalWin(String sym) {
+        boolean ans = false;
+
+        if (position1.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position5.symbol, position9.symbol);
+        } else if (position3.symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, position5.symbol, position7.symbol);
+        }
+
+        return ans;
+    }
+
+    //EFFECTS: returns true if the strings s1, s2, and s3 are the same
+    boolean checkSameSymbol(String s1, String s2, String s3) {
+        return s1.equals(s2) && s1.equals(s3);
     }
 }

@@ -11,7 +11,7 @@ class PositionTest {
 
     @BeforeEach
     void runBefore() {
-        p1 = new Position("","1");
+        p1 = new Position(" ","1");
         p2 = new Position("X","2");
         p3 = new Position("O","3");
     }
