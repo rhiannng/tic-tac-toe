@@ -195,13 +195,33 @@ class BoardTest {
     }
 
     @Test
-    void checkWinTestWinsOnBoard() {
+    void checkWinTestHorizontalWin() {
         b.position1.fillPositionWithX();
         b.position2.fillPositionWithX();
         b.position3.fillPositionWithX();
 
         assertTrue(b.checkWin("X"));
         assertFalse(b.checkWin("O"));
+    }
+
+    @Test
+    void checkWinTestVerticalWin() {
+        b.position2.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position8.fillPositionWithO();
+
+        assertTrue(b.checkWin("O"));
+        assertFalse(b.checkWin("X"));
+    }
+
+    @Test
+    void checkWinTestDiagonalWin() {
+        b.position1.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position9.fillPositionWithO();
+
+        assertTrue(b.checkWin("O"));
+        assertFalse(b.checkWin("X"));
     }
 
     @Test
@@ -216,6 +236,17 @@ class BoardTest {
         b.availablePositions.remove(b.position8);
         b.availablePositions.remove(b.position9);
 
+        b.position1.fillPositionWithX();
+        b.position3.fillPositionWithX();
+        b.position6.fillPositionWithX();
+        b.position7.fillPositionWithX();
+        b.position8.fillPositionWithX();
+
+        b.position2.fillPositionWithO();
+        b.position4.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position9.fillPositionWithO();
+
         assertTrue(b.checkTie());
     }
 
@@ -228,11 +259,19 @@ class BoardTest {
         b.availablePositions.remove(b.position5);
         b.availablePositions.remove(b.position6);
 
+        b.position1.fillPositionWithX();
+        b.position3.fillPositionWithX();
+        b.position5.fillPositionWithX();
+
+        b.position2.fillPositionWithO();
+        b.position4.fillPositionWithO();
+        b.position6.fillPositionWithO();
+
         assertFalse(b.checkTie());
     }
 
     @Test
-    void checkTieTestSomeoneWon() {
+    void checkTieTestSomeMovesLeftSomeoneWon() {
         b.position1.fillPositionWithX();
         b.position2.fillPositionWithX();
         b.position3.fillPositionWithX();
@@ -241,6 +280,31 @@ class BoardTest {
         b.availablePositions.remove(b.position2);
         b.availablePositions.remove(b.position3);
 
+        assertFalse(b.checkTie());
+    }
+
+    @Test
+    void checkTieNoMovesLeftSomeoneWon() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position2);
+        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove(b.position7);
+        b.availablePositions.remove(b.position8);
+        b.availablePositions.remove(b.position9);
+
+        b.position1.fillPositionWithO();
+        b.position4.fillPositionWithO();
+        b.position5.fillPositionWithO();
+        b.position8.fillPositionWithO();
+        b.position9.fillPositionWithO();
+
+        b.position2.fillPositionWithX();
+        b.position3.fillPositionWithX();
+        b.position6.fillPositionWithX();
+        b.position7.fillPositionWithX();
 
         assertFalse(b.checkTie());
     }
