@@ -1,6 +1,9 @@
 package model;
 
+import org.json.JSONObject;
+
 //represents a specific position in the board, with a symbol and a positionNumber
+//TODO citation: code taken and modified from Thingy.java package in JsonSerializationDemo
 public class Position {
     String symbol;
     String positionNumber;
@@ -24,4 +27,11 @@ public class Position {
         this.symbol = "O";
     }
 
+    //EFFECTS: returns a JSONObject of this position
+    public JSONObject positionToJson() {
+        JSONObject json = new JSONObject();
+        json.put("symbol", symbol);
+        json.put("positionNumber", positionNumber);
+        return json;
+    }
 }

@@ -55,6 +55,28 @@ class BoardTest {
     }
 
     @Test
+    void otherPlayerMakesAMoveTest() {
+        b.otherPlayerMakesAMove("2");
+        b.otherPlayerMakesAMove("5");
+        b.otherPlayerMakesAMove("8");
+
+        //checks availablePosition's size and whether it contains the correct Positions
+        assertEquals(6,b.availablePositions.size());
+        assertTrue(b.availablePositions.contains(b.position1));
+        assertTrue(b.availablePositions.contains(b.position9));
+        assertFalse(b.availablePositions.contains(b.position8));
+        assertFalse(b.availablePositions.contains(b.position2));
+        assertFalse(b.availablePositions.contains(b.position5));
+
+        //checks that the symbols are set correctly
+        assertEquals(b.position1.symbol, " ");
+        assertEquals(b.position9.symbol, " ");
+        assertEquals(b.position8.symbol, "O");
+        assertEquals(b.position2.symbol, "O");
+        assertEquals(b.position5.symbol, "O");
+    }
+
+    @Test
     void stringToPositionTest() {
         assertEquals(b.position1 ,b.stringToPosition("1"));
         assertEquals(b.position2 ,b.stringToPosition("2"));

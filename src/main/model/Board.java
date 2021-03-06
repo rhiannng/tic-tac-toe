@@ -1,5 +1,9 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -58,6 +62,16 @@ public class Board {
         Position nextPosition;
         nextPosition = stringToPosition(playerMove);
         nextPosition.fillPositionWithX();
+        availablePositions.remove(nextPosition);
+    }
+
+    //REQUIRES: the move is available and valid
+    //MODIFIES: position1-9, availablePositions
+    //EFFECTS : marks the specified position with "O", removes position from availablePositions (strictly for testing)
+    public void otherPlayerMakesAMove(String move) {
+        Position nextPosition;
+        nextPosition = stringToPosition(move);
+        nextPosition.fillPositionWithO();
         availablePositions.remove(nextPosition);
     }
 
@@ -274,5 +288,30 @@ public class Board {
             }
         }
         return b;
+    }
+
+    //EFFECTS: returns this as JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("position1", position1.positionToJson());
+        json.put("position2", position2.positionToJson());
+        json.put("position3", position3.positionToJson());
+        json.put("position4", position4.positionToJson());
+        json.put("position5", position5.positionToJson());
+        json.put("position6", position6.positionToJson());
+        json.put("position7", position7.positionToJson());
+        json.put("position8", position8.positionToJson());
+        json.put("position9", position9.positionToJson());
+        json.put("availablePositions", listToJson(availablePositions));
+        return json;
+    }
+
+    //EFFECTS: every position in the list is jsonified and put into a jsonArray, which is returned.
+    private JSONArray listToJson(ArrayList<Position> list) {
+        JSONArray jsonArray = new JSONArray();
+        for (Position p : list) {
+            jsonArray.put(p.positionToJson());
+        }
+        return jsonArray;
     }
 }

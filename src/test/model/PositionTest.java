@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,5 +37,22 @@ class PositionTest {
         assertEquals("O",p1.symbol);
         assertEquals("O",p2.symbol);
         assertEquals("O",p3.symbol);
+    }
+
+    @Test
+    void positionToJsonTest() {
+        JSONObject json1 = p1.positionToJson();
+        JSONObject json2 = p2.positionToJson();
+        JSONObject json3 = p3.positionToJson();
+
+        assertEquals(" ", json1.get("symbol"));
+        assertEquals("X", json2.get("symbol"));
+        assertEquals("O", json3.get("symbol"));
+
+        assertEquals("1", json1.get("positionNumber"));
+        assertEquals("2", json2.get("positionNumber"));
+        assertEquals("3", json3.get("positionNumber"));
+
+
     }
 }

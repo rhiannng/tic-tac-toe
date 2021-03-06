@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+//represents a  reader that reads a board from JSON data stored in file
 //TODO citation: code taken and modified from JsonReader.java package in JsonSerializationDemo
 public class JsonReader {
     private String source;

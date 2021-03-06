@@ -2,7 +2,7 @@ package ui;
 
 import model.Board;
 import persistence.JsonReader;
-//import persistence.JsonWriter;
+import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,14 +14,14 @@ public class Game {
     private static final String FILE_DIRECTORY = "./data/myTicTacToeGame.json";
     private Board board;
     private Scanner input;
-//    private JsonWriter jsonWriter;
+    private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
     //EFFECTS: runs the game application
     public Game() {
         board = new Board();
         input = new Scanner(System.in);
-//        jsonWriter = new JsonWriter(FILE_DIRECTORY);
+        jsonWriter = new JsonWriter(FILE_DIRECTORY);
         jsonReader = new JsonReader(FILE_DIRECTORY);
         runGame();
     }
@@ -50,9 +50,10 @@ public class Game {
             keepGoing = false;
         } else if (command.equals("r")) {
             System.out.println("Restarting!");
-            //TODO: MAKE A RESTART METHOD OR SOME SHIT IDK
-//        } else if (command.equals("s")) {
-//            //TODO: SAVE GAME METHOD
+            keepGoing = false;
+            new Game();
+        } else if (command.equals("s")) {
+            saveGame();
         } else if (command.equals("l")) {
             loadGame();
         } else {
@@ -137,30 +138,27 @@ public class Game {
         System.out.println("Would you like to play again?");
         System.out.println("Please input \"yes\" to play again, if not, press any button.");
         if (input.nextLine().equals("yes")) {
-            runGame();
-            //TODO: FIGURE OUT PROPER RESTART METHOD
+            new Game();
         }
     }
 
-//    //REQUIRES:
-//    //MODIFIES:
-//    //EFFECTS :
-//    private void saveGame() {
-//        try {
-//            jsonWriter.open();
-//            jsonWriter.write(board);
-//            jsonWriter.close();
-//            System.out.println("Saved the board to" + FILE_DIRECTORY);
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Unable to write file to:" + FILE_DIRECTORY);
-//        }
-//    }
+    //EFFECTS : saves the current Board to a json file
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(board);
+            jsonWriter.close();
+            System.out.println("Saved the board to" + FILE_DIRECTORY);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write file to:" + FILE_DIRECTORY);
+        }
+    }
 
     //EFFECTS : loads Board from file
     private void loadGame() {
         try {
             board = jsonReader.read();
-            System.out.println("Loaded the board to" + FILE_DIRECTORY);
+            System.out.println("Loaded the board from" + FILE_DIRECTORY);
             displayBoard();
         } catch (IOException e) {
             System.out.println("Unable to find file:" + FILE_DIRECTORY);
