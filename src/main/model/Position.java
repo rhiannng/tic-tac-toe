@@ -23,4 +23,5 @@ public class Position {
     public void fillPositionWithO() {
         this.symbol = "O";
     }
+
 }

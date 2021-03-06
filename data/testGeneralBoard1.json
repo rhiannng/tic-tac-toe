@@ -1,0 +1,18 @@
+{
+  "position1" : {"symbol": "O", "positionNumber": "1"},
+  "position2" : {"symbol": "X", "positionNumber": "2"},
+  "position3" : {"symbol": "O", "positionNumber": "3"},
+  "position4" : {"symbol": " ", "positionNumber": "4"},
+  "position5" : {"symbol": "X", "positionNumber": "5"},
+  "position6" : {"symbol": " ", "positionNumber": "6"},
+  "position7" : {"symbol": " ", "positionNumber": "7"},
+  "position8" : {"symbol": "O", "positionNumber": "8"},
+  "position9" : {"symbol": " ", "positionNumber": "9"},
+
+  "availablePositions" : [
+    {"symbol": " ", "positionNumber": "4"},
+    {"symbol": " ", "positionNumber": "6"},
+    {"symbol": " ", "positionNumber": "7"},
+    {"symbol": " ", "positionNumber": "9"}
+  ]
+}

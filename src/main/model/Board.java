@@ -154,12 +154,12 @@ public class Board {
     public boolean checkHorizontalWin(String sym) {
         boolean ans = false;
 
-        if (position1.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position2.symbol, position3.symbol);
-        } else if (position4.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position5.symbol, position6.symbol);
-        } else if (position7.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position8.symbol, position9.symbol);
+        if (allPositions.get(0).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(1).symbol, allPositions.get(2).symbol);
+        } else if (allPositions.get(3).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(5).symbol);
+        } else if (allPositions.get(6).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(7).symbol, allPositions.get(8).symbol);
         }
 
         return ans;
@@ -170,12 +170,12 @@ public class Board {
     public boolean checkVerticalWin(String sym) {
         boolean ans = false;
 
-        if (position1.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position4.symbol, position7.symbol);
-        } else if (position2.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position5.symbol, position8.symbol);
-        } else if (position3.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position6.symbol, position9.symbol);
+        if (allPositions.get(0).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(3).symbol, allPositions.get(6).symbol);
+        } else if (allPositions.get(1).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(7).symbol);
+        } else if (allPositions.get(2).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(5).symbol, allPositions.get(8).symbol);
         }
 
         return ans;
@@ -186,10 +186,10 @@ public class Board {
     public boolean checkDiagonalWin(String sym) {
         boolean ans = false;
 
-        if (position1.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position5.symbol, position9.symbol);
-        } else if (position3.symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, position5.symbol, position7.symbol);
+        if (allPositions.get(0).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(8).symbol);
+        } else if (allPositions.get(2).symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(6).symbol);
         }
 
         return ans;
@@ -198,5 +198,81 @@ public class Board {
     //EFFECTS: returns true if the strings s1, s2, and s3 are the same
     boolean checkSameSymbol(String s1, String s2, String s3) {
         return s1.equals(s2) && s1.equals(s3);
+    }
+
+    public void setPosition1(Position p) {
+        position1 = p;
+    }
+
+    public void setPosition2(Position p) {
+        position2 = p;
+    }
+
+    public void setPosition3(Position p) {
+        position3 = p;
+    }
+
+    public void setPosition4(Position p) {
+        position4 = p;
+    }
+
+    public void setPosition5(Position p) {
+        position5 = p;
+    }
+
+    public void setPosition6(Position p) {
+        position6 = p;
+    }
+
+    public void setPosition7(Position p) {
+        position7 = p;
+    }
+
+    public void setPosition8(Position p) {
+        position8 = p;
+    }
+
+    public void setPosition9(Position p) {
+        position9 = p;
+    }
+
+    public ArrayList<Position> getAvailablePositions() {
+        return availablePositions;
+    }
+
+    public ArrayList<Position> getAllPositions() {
+        return allPositions;
+    }
+
+    //MODIFIES: this
+    //EFFECTS : clears the allPositions field, resetting and updating the field
+    public void resetAllPositions() {
+        allPositions = new ArrayList<>();
+        setUpList(allPositions);
+    }
+
+    //MODIFIES: this
+    //EFFECTS : clears availablePosition field and loads in the available positions from the json file
+    public void loadJsonAvailablePositions(ArrayList<Position> list) {
+        availablePositions = new ArrayList<>();
+        setUpList(availablePositions);
+        boolean isThereAMatch;
+        for (Position p : allPositions) {
+            isThereAMatch = checkIfMatch(p, list);
+            if (!isThereAMatch) {
+                availablePositions.remove(p);
+            }
+        }
+    }
+
+    //EFFECTS : returns true if the given Position has the same positionNumber as those in the list
+    private boolean checkIfMatch(Position p, ArrayList<Position> list) {
+        boolean b = false;
+        for (Position jsonPosition : list) {
+            if (p.positionNumber.equals(jsonPosition.positionNumber)) {
+                b = true;
+            }
+        }
+        return b;
     }
 }

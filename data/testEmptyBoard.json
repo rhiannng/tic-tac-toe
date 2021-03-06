@@ -1,0 +1,23 @@
+{
+  "position1" : {"symbol": " ", "positionNumber": "1"},
+  "position2" : {"symbol": " ", "positionNumber": "2"},
+  "position3" : {"symbol": " ", "positionNumber": "3"},
+  "position4" : {"symbol": " ", "positionNumber": "4"},
+  "position5" : {"symbol": " ", "positionNumber": "5"},
+  "position6" : {"symbol": " ", "positionNumber": "6"},
+  "position7" : {"symbol": " ", "positionNumber": "7"},
+  "position8" : {"symbol": " ", "positionNumber": "8"},
+  "position9" : {"symbol": " ", "positionNumber": "9"},
+
+  "availablePositions" : [
+    {"symbol": " ", "positionNumber": "1"},
+    {"symbol": " ", "positionNumber": "2"},
+    {"symbol": " ", "positionNumber": "3"},
+    {"symbol": " ", "positionNumber": "4"},
+    {"symbol": " ", "positionNumber": "5"},
+    {"symbol": " ", "positionNumber": "6"},
+    {"symbol": " ", "positionNumber": "7"},
+    {"symbol": " ", "positionNumber": "8"},
+    {"symbol": " ", "positionNumber": "9"}
+  ]
+}
