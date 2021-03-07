@@ -68,8 +68,7 @@ public class JsonReader {
     private Position parsePosition(JSONObject jsonObject) {
         String symbol = jsonObject.getString("symbol");
         String positionNumber = jsonObject.getString("positionNumber");
-        Position p = new Position(symbol, positionNumber);
-        return p;
+        return new Position(symbol, positionNumber);
     }
 
     //REQUIRES: positions have already been parsed from jsonObject before being called
