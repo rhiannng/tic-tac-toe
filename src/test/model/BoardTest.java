@@ -1,7 +1,12 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -490,5 +495,74 @@ class BoardTest {
         assertTrue(b.checkSameSymbol(s1,s1,s1));
         assertFalse(b.checkSameSymbol(s1,s1,s2));
         assertFalse(b.checkSameSymbol(s1,s2,s3));
+    }
+
+    @Test
+    void resetAllPositionsTest() {
+        b.allPositions.remove(b.position1);
+        b.allPositions.remove(b.position2);
+        b.allPositions.remove(b.position9);
+
+        b.resetAllPositions();
+
+        assertEquals(9,b.allPositions.size());
+    }
+
+    @Test
+    void loadJsonAvailablePositionsTest() {
+        ArrayList<Position> posList = new ArrayList<>();
+        posList.add(new Position(" ","1"));
+        posList.add(new Position(" ","2"));
+        posList.add(new Position(" ","3"));
+        posList.add(new Position(" ","4"));
+
+        b.loadJsonAvailablePositions(posList);
+        assertEquals(4, b.availablePositions.size());
+        assertTrue(b.availablePositions.contains(b.position1));
+        assertTrue(b.availablePositions.contains(b.position2));
+        assertTrue(b.availablePositions.contains(b.position3));
+        assertTrue(b.availablePositions.contains(b.position4));
+        assertFalse(b.availablePositions.contains(b.position5));
+        assertFalse(b.availablePositions.contains(b.position6));
+    }
+
+    @Test
+    void checkIfMatchTest() {
+        b.availablePositions.remove(b.position1);
+        b.availablePositions.remove(b.position5);
+        b.availablePositions.remove(b.position7);
+
+        assertFalse(b.checkIfMatch(b.position1, b.availablePositions));
+        assertFalse(b.checkIfMatch(b.position5, b.availablePositions));
+        assertFalse(b.checkIfMatch(b.position7, b.availablePositions));
+        assertTrue(b.checkIfMatch(b.position2, b.availablePositions));
+        assertTrue(b.checkIfMatch(b.position3, b.availablePositions));
+    }
+
+    @Test
+    void toJsonTest() {
+        b.position4.fillPositionWithX();
+        b.position6.fillPositionWithX();
+        b.position7.fillPositionWithO();
+
+        b.availablePositions.remove(b.position4);
+        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove(b.position7);
+
+        JSONObject json = b.toJson();
+        JsonReader reader = new JsonReader("");
+        b = reader.parseBoard(json);
+
+        assertEquals(6,b.availablePositions.size());
+        assertTrue(b.availablePositions.contains(b.position1));
+        assertTrue(b.availablePositions.contains(b.position2));
+        assertTrue(b.availablePositions.contains(b.position3));
+        assertFalse(b.availablePositions.contains(b.position4));
+        assertFalse(b.availablePositions.contains(b.position6));
+        assertFalse(b.availablePositions.contains(b.position7));
+        assertEquals("X",b.position4.symbol);
+        assertEquals("X",b.position6.symbol);
+        assertEquals("O",b.position7.symbol);
+
     }
 }

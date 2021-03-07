@@ -280,11 +280,12 @@ public class Board {
     }
 
     //EFFECTS : returns true if the given Position has the same positionNumber as those in the list
-    private boolean checkIfMatch(Position p, ArrayList<Position> list) {
+    public boolean checkIfMatch(Position p, ArrayList<Position> list) {
         boolean b = false;
         for (Position jsonPosition : list) {
             if (p.positionNumber.equals(jsonPosition.positionNumber)) {
                 b = true;
+                break;
             }
         }
         return b;
@@ -306,8 +307,8 @@ public class Board {
         return json;
     }
 
-    //EFFECTS: every position in the list is jsonified and put into a jsonArray, which is returned.
-    private JSONArray listToJson(ArrayList<Position> list) {
+    //EFFECTS: every position in the list is json-ified and put into a jsonArray, which is returned.
+    public JSONArray listToJson(ArrayList<Position> list) {
         JSONArray jsonArray = new JSONArray();
         for (Position p : list) {
             jsonArray.put(p.positionToJson());

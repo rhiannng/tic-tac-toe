@@ -42,7 +42,7 @@ public class JsonReader {
 
     //MODIFIES: Board b and its fields
     //EFFECTS: parses board from JSONObject, setting up fields, and then returns it
-    private Board parseBoard(JSONObject jsonObject) {
+    public Board parseBoard(JSONObject jsonObject) {
         Board b = new Board();
         setUpPositions1To9(b,jsonObject);
         setUpAllPositions(b);
