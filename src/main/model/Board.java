@@ -67,6 +67,14 @@ public class Board {
 
     //REQUIRES: the move is available and valid
     //MODIFIES: position1-9, availablePositions
+    //EFFECTS : marks the specified position with "X", removes position from availablePositions
+    public void playerMakesAMove(Position p) {
+        p.fillPositionWithX();
+        availablePositions.remove(p);
+    }
+
+    //REQUIRES: the move is available and valid
+    //MODIFIES: position1-9, availablePositions
     //EFFECTS : marks the specified position with "O", removes position from availablePositions (strictly for testing)
     public void otherPlayerMakesAMove(String move) {
         Position nextPosition;
@@ -118,11 +126,12 @@ public class Board {
 
     //MODIFIES: nextPosition, position1-9, availablePositions
     //EFFECTS: marks the specified position with "O", removes position from availablePositions
-    public void moveAgainstPlayer() {
+    public Position moveAgainstPlayer() {
         Position nextPosition;
         nextPosition = getRandomAvailablePosition();
         nextPosition.fillPositionWithO();
         availablePositions.remove(nextPosition);
+        return nextPosition;
     }
 
     // EFFECTS: returns a random Position from the availablePositions list

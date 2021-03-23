@@ -4,30 +4,50 @@ import model.Board;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
 // represents the tic-tac-toe game application
 //TODO citation: code taken and modified from WorkRoomApp.java package from JsonSerializationDemo
-public class Game {
+//TODO citation: centreOnScreen method taken from SpaceInvaders package from B02-SpaceInvadersBase
+public class Game extends JFrame {
     private static final String FILE_DIRECTORY = "./data/myTicTacToeGame.json";
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 500;
     private Board board;
     private Scanner input;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    BoardPanel boardPanel;
+    JPanel optionsPanel;
+    GridBagConstraints constraints;
 
     //EFFECTS: runs the game application
     public Game() {
+        super("Tic Tac Toe Game");
+        setLayout(new GridBagLayout());
+        setSize(WIDTH, HEIGHT);
+        setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         board = new Board();
         input = new Scanner(System.in);
+        constraints = new GridBagConstraints();
         jsonWriter = new JsonWriter(FILE_DIRECTORY);
         jsonReader = new JsonReader(FILE_DIRECTORY);
-        runGame();
+        initializeBoardPanel(board);
+        initializeOptionsPanel();
+        centreOnScreen();
+        setVisible(true);
+//        runConsoleGame();
     }
 
     //EFFECTS: displays instructions and processes user input
-    private void runGame() {
+    private void runConsoleGame() {
         boolean keepGoing = true;
         displayInstructions();
         displayBoardWithNumbers();
@@ -160,8 +180,91 @@ public class Game {
             board = jsonReader.read();
             System.out.println("Loaded the board from" + FILE_DIRECTORY);
             displayBoard();
+            boardPanel.setVisible(false);
+            initializeBoardPanel(board);
         } catch (IOException e) {
             System.out.println("Unable to find file:" + FILE_DIRECTORY);
         }
+    }
+
+    private void initializeBoardPanel(Board b) {
+        boardPanel = new BoardPanel(b);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        add(boardPanel, constraints);
+        setVisible(true);
+    }
+
+    private void initializeOptionsPanel() {
+        optionsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 0;
+        initializeSaveButton(c);
+        c.gridy++;
+        initializeLoadButton(c);
+        c.gridy++;
+        initializeRestartButton(c);
+        c.gridy++;
+        initializeQuitButton(c);
+
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+
+        add(optionsPanel, constraints);
+    }
+
+    private void initializeSaveButton(GridBagConstraints c) {
+        JButton saveButton = new JButton("Save");
+        optionsPanel.add(saveButton,c);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveGame();
+            }
+        });
+    }
+
+    private void initializeLoadButton(GridBagConstraints c) {
+        JButton loadButton = new JButton("Load");
+        optionsPanel.add(loadButton,c);
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadGame();
+            }
+        });
+    }
+
+    private void initializeRestartButton(GridBagConstraints c) {
+        JButton restartButton = new JButton("Restart");
+        optionsPanel.add(restartButton,c);
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                restartGame();
+            }
+        });
+    }
+
+    private void initializeQuitButton(GridBagConstraints c) {
+        JButton quitButton = new JButton("Quit");
+        optionsPanel.add(quitButton,c);
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+
+    private void centreOnScreen() {
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((screen.width - getWidth()) / 2, (screen.height - getHeight()) / 2);
+    }
+
+    private void restartGame() {
+        board = new Board();
+        boardPanel.setVisible(false);
+        initializeBoardPanel(board);
     }
 }

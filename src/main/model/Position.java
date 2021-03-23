@@ -34,4 +34,14 @@ public class Position {
         json.put("positionNumber", positionNumber);
         return json;
     }
+
+    //EFFECTS: returns position's symbol (getter)
+    public String getSymbol() {
+        return symbol;
+    }
+
+    //EFFECTS: returns position's positionNumber (getter)
+    public String getPositionNumber() {
+        return positionNumber;
+    }
 }
