@@ -43,7 +43,7 @@ public class Game extends JFrame {
         initializeOptionsPanel();
         centreOnScreen();
         setVisible(true);
-//        runConsoleGame();
+        runConsoleGame();
     }
 
     //EFFECTS: displays instructions and processes user input
@@ -158,7 +158,7 @@ public class Game extends JFrame {
             new TyingGameDialog(this);
         }
         restartGame();
-//
+//        console related ui
 //        System.out.println("Would you like to play again?");
 //        System.out.println("Please input \"yes\" to play again, if not, press any button.");
 //        if (input.nextLine().equals("yes")) {
@@ -191,6 +191,7 @@ public class Game extends JFrame {
         }
     }
 
+    //EFFECTS: constructs a new board panel for the game frame
     private void initializeBoardPanel(Board b) {
         boardPanel = new BoardPanel(b, this);
         constraints.gridx = 0;
@@ -199,6 +200,7 @@ public class Game extends JFrame {
         setVisible(true);
     }
 
+    //EFFECTS: sets up the options panel for the game frame with different options
     private void initializeOptionsPanel() {
         optionsPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -217,6 +219,7 @@ public class Game extends JFrame {
         add(optionsPanel, constraints);
     }
 
+    //EFFECTS: creates the save button for the options panel, calls saveGame() when clicked
     private void initializeSaveButton(GridBagConstraints c) {
         JButton saveButton = new JButton("Save");
         optionsPanel.add(saveButton,c);
@@ -228,6 +231,7 @@ public class Game extends JFrame {
         });
     }
 
+    //EFFECTS: creates the load button for the options panel, calls loadGame() when clicked
     private void initializeLoadButton(GridBagConstraints c) {
         JButton loadButton = new JButton("Load");
         optionsPanel.add(loadButton,c);
@@ -239,6 +243,7 @@ public class Game extends JFrame {
         });
     }
 
+    //EFFECTS: creates the restart button for the options panel, calls restartGame() when clicked
     private void initializeRestartButton(GridBagConstraints c) {
         JButton restartButton = new JButton("Restart");
         optionsPanel.add(restartButton,c);
@@ -250,6 +255,7 @@ public class Game extends JFrame {
         });
     }
 
+    //EFFECTS: creates the quit button for the options panel, calls quitGame() when clicked
     private void initializeQuitButton(GridBagConstraints c) {
         JButton quitButton = new JButton("Quit");
         optionsPanel.add(quitButton,c);
@@ -261,11 +267,13 @@ public class Game extends JFrame {
         });
     }
 
+    //EFFECTS: centers the frame on the screen
     private void centreOnScreen() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((screen.width - getWidth()) / 2, (screen.height - getHeight()) / 2);
     }
 
+    //EFFECTS: restarts the game by creating a new board and board panel
     private void restartGame() {
         board = new Board();
         boardPanel.setVisible(false);

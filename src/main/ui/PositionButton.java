@@ -7,12 +7,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//represents a button that represents a position on the board
 public class PositionButton extends JButton {
     Position position;
     Board board;
     boolean isFilled;
     BoardPanel boardPanel;
 
+    //EFFECTS: constructs a PositionButton corresponding to a position; if clicked, ensures that move is displayed and
+    //         taken into effect in the board, then initiates the next move for the computer
     public PositionButton(Position p, Board b, BoardPanel boardPanel) {
         super(p.getSymbol());
         this.position = p;
@@ -32,6 +35,7 @@ public class PositionButton extends JButton {
         });
     }
 
+    //EFFECTS: returns the row number for the grid bag layout based on the positionNumber
     public int getRow() {
         String posNumString = position.getPositionNumber();
         int posNum = Integer.parseInt(posNumString);
@@ -44,6 +48,7 @@ public class PositionButton extends JButton {
         }
     }
 
+    //EFFECTS: returns the column number for the grid bag layout based on the positionNumber
     public int getColumn() {
         String posNumString = position.getPositionNumber();
         int posNum = Integer.parseInt(posNumString);

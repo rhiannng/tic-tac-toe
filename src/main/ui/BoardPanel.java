@@ -5,16 +5,16 @@ import model.Position;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+//represents the panel that has the game board with all the positions
 public class BoardPanel extends JPanel {
     Game game;
     Board board;
     ArrayList<PositionButton> positionButtonList;
     GridBagConstraints constraints;
 
+    //EFFECTS: constructs a BoardPanel and sets up all the PositionButtons in the panel
     public BoardPanel(Board b, Game g) {
         super(new GridBagLayout());
         this.board = b;
@@ -30,11 +30,8 @@ public class BoardPanel extends JPanel {
         }
     }
 
-    //EFFECTS: returns positionButtonList (getter)
-    public ArrayList<PositionButton> getPositionButtonList() {
-        return positionButtonList;
-    }
-
+    //MODIFIES: board, posButton
+    //EFFECTS: lets the computer make a move and displays the move onto the corresponding PositionButton
     public void displayComputerMove() {
         Position pos = board.moveAgainstPlayer();
         for (PositionButton posButton : positionButtonList) {
@@ -44,11 +41,16 @@ public class BoardPanel extends JPanel {
         }
     }
 
+    //EFFECTS: once player has made a move, checks if board has an end-game scenario, otherwise, allows computer to
+    //         make a move (also checks if computer move creates an end-game scenario)
     public void initiateNextMove() {
         if (board.checkEndGame()) {
             game.endGameSequence();
         } else {
             displayComputerMove();
+            if (board.checkEndGame()) {
+                game.endGameSequence();
+            }
         }
     }
 }
