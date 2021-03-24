@@ -145,21 +145,25 @@ public class Game extends JFrame {
     }
 
     //EFFECTS: prints statements win/lose/tie statements
-    private void endGameSequence() {
+    public void endGameSequence() {
 
         if (board.checkWin("X")) {
             System.out.println("You won!");
+            new WinningGameDialog(this);
         } else if (board.checkWin("O")) {
             System.out.println("You lost!");
+            new LosingGameDialog(this);
         } else if (board.checkTie()) {
             System.out.println("We tied!");
+            new TyingGameDialog(this);
         }
-
-        System.out.println("Would you like to play again?");
-        System.out.println("Please input \"yes\" to play again, if not, press any button.");
-        if (input.nextLine().equals("yes")) {
-            new Game();
-        }
+        restartGame();
+//
+//        System.out.println("Would you like to play again?");
+//        System.out.println("Please input \"yes\" to play again, if not, press any button.");
+//        if (input.nextLine().equals("yes")) {
+//            new Game();
+//        }
     }
 
     //EFFECTS : saves the current Board to a json file
@@ -188,7 +192,7 @@ public class Game extends JFrame {
     }
 
     private void initializeBoardPanel(Board b) {
-        boardPanel = new BoardPanel(b);
+        boardPanel = new BoardPanel(b, this);
         constraints.gridx = 0;
         constraints.gridy = 0;
         add(boardPanel, constraints);

@@ -5,16 +5,20 @@ import model.Position;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class BoardPanel extends JPanel {
+    Game game;
     Board board;
     ArrayList<PositionButton> positionButtonList;
     GridBagConstraints constraints;
 
-    public BoardPanel(Board b) {
+    public BoardPanel(Board b, Game g) {
         super(new GridBagLayout());
         this.board = b;
+        this.game = g;
         this.positionButtonList = new ArrayList<>();
         this.constraints = new GridBagConstraints();
         for (Position p : b.getAllPositions()) {
@@ -37,6 +41,14 @@ public class BoardPanel extends JPanel {
             if (posButton.getPosition().equals(pos)) {
                 posButton.setText(pos.getSymbol());
             }
+        }
+    }
+
+    public void initiateNextMove() {
+        if (board.checkEndGame()) {
+            game.endGameSequence();
+        } else {
+            displayComputerMove();
         }
     }
 }

@@ -4,7 +4,6 @@ import model.Board;
 import model.Position;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,11 +26,7 @@ public class PositionButton extends JButton {
                 if (!isFilled) {
                     b.playerMakesAMove(p);
                     setText(p.getSymbol());
-                    if (b.checkEndGame()) {
-                        //TODO: call end game sequence
-                    } else {
-                        boardPanel.displayComputerMove();
-                    }
+                    boardPanel.initiateNextMove();
                 }
             }
         });
