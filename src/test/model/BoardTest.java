@@ -38,10 +38,32 @@ class BoardTest {
     }
 
     @Test
-    void playerMakesAMoveTest() {
+    void playerMakesAMoveStringParameterTest() {
         b.playerMakesAMove("1");
         b.playerMakesAMove("9");
         b.playerMakesAMove("8");
+
+        //checks availablePosition's size and whether it contains the correct Positions
+        assertEquals(6,b.availablePositions.size());
+        assertFalse(b.availablePositions.contains(b.position1));
+        assertFalse(b.availablePositions.contains(b.position9));
+        assertFalse(b.availablePositions.contains(b.position8));
+        assertTrue(b.availablePositions.contains(b.position2));
+        assertTrue(b.availablePositions.contains(b.position5));
+
+        //checks that the symbols are set correctly
+        assertEquals(b.position1.symbol, "X");
+        assertEquals(b.position9.symbol, "X");
+        assertEquals(b.position8.symbol, "X");
+        assertEquals(b.position2.symbol, " ");
+        assertEquals(b.position5.symbol, " ");
+    }
+
+    @Test
+    void playerMakesAMovePositionParameterTest() {
+        b.playerMakesAMove(b.position1);
+        b.playerMakesAMove(b.position9);
+        b.playerMakesAMove(b.position8);
 
         //checks availablePosition's size and whether it contains the correct Positions
         assertEquals(6,b.availablePositions.size());
