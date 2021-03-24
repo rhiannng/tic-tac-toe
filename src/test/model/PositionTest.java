@@ -52,7 +52,19 @@ class PositionTest {
         assertEquals("1", json1.get("positionNumber"));
         assertEquals("2", json2.get("positionNumber"));
         assertEquals("3", json3.get("positionNumber"));
+    }
 
+    @Test
+    void getSymbolTest() {
+        assertTrue(p1.getSymbol().equals(" "));
+        assertTrue(p2.getSymbol().equals("X"));
+        assertTrue(p3.getSymbol().equals("O"));
+    }
 
+    @Test
+    void getPositionNumberTest() {
+        assertTrue(p1.getPositionNumber().equals("1"));
+        assertTrue(p2.getPositionNumber().equals("2"));
+        assertTrue(p3.getPositionNumber().equals("3"));
     }
 }
