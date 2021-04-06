@@ -20,7 +20,7 @@ public class JsonReaderTest {
             //pass
         }
     }
-    
+
     @Test
     void testReaderEmptyBoard() {
         JsonReader reader = new JsonReader("./data/testEmptyBoard.json");

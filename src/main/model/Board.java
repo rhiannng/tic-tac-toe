@@ -4,8 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 //represents a tic-tac-toe board with corresponding positions
 public class Board {
@@ -18,8 +17,8 @@ public class Board {
     Position position7;
     Position position8;
     Position position9;
-    ArrayList<Position> allPositions;
-    ArrayList<Position> availablePositions;
+    HashMap<String, Position> allPositions;
+    HashMap<String, Position> availablePositions;
 
     //MODIFIES: position1-9, availablePositions, allPositions
     //EFFECTS : creates position1-9 and adds them to availablePositions & allPositions which are also instantiated
@@ -34,25 +33,25 @@ public class Board {
         position8 = new Position(" ","8");
         position9 = new Position(" ","9");
 
-        allPositions = new ArrayList<>();
+        allPositions = new HashMap<>();
         setUpList(allPositions);
 
-        availablePositions = new ArrayList<>();
+        availablePositions = new HashMap<>();
         setUpList(availablePositions);
     }
 
     //MODIFIES: list
     //EFFECTS: adds all the positions in the board to the list
-    public void setUpList(ArrayList<Position> list) {
-        list.add(position1);
-        list.add(position2);
-        list.add(position3);
-        list.add(position4);
-        list.add(position5);
-        list.add(position6);
-        list.add(position7);
-        list.add(position8);
-        list.add(position9);
+    public void setUpList(HashMap<String, Position> list) {
+        list.put("1", position1);
+        list.put("2", position2);
+        list.put("3", position3);
+        list.put("4", position4);
+        list.put("5", position5);
+        list.put("6", position6);
+        list.put("7", position7);
+        list.put("8", position8);
+        list.put("9", position9);
     }
 
     //REQUIRES: the move is available and valid
@@ -62,7 +61,7 @@ public class Board {
         Position nextPosition;
         nextPosition = stringToPosition(playerMove);
         nextPosition.fillPositionWithX();
-        availablePositions.remove(nextPosition);
+        availablePositions.remove(playerMove);
     }
 
     //REQUIRES: the move is available and valid
@@ -70,7 +69,7 @@ public class Board {
     //EFFECTS : marks the specified position with "X", removes position from availablePositions
     public void playerMakesAMove(Position p) {
         p.fillPositionWithX();
-        availablePositions.remove(p);
+        availablePositions.remove(p.getPositionNumber());
     }
 
     //REQUIRES: the move is available and valid
@@ -80,21 +79,13 @@ public class Board {
         Position nextPosition;
         nextPosition = stringToPosition(move);
         nextPosition.fillPositionWithO();
-        availablePositions.remove(nextPosition);
+        availablePositions.remove(move);
     }
 
     //REQUIRES: string corresponds to an available position's positionNumber
     //EFFECTS: returns Position with corresponding positionNumber
     public Position stringToPosition(String s) {
-        Position nextPos = new Position("","");
-        for (int i = 0; i < availablePositions.size(); i++) {
-            Position p = availablePositions.get(i);
-            if (p.positionNumber.equals(s)) {
-                nextPos = p;
-                i = availablePositions.size();
-            }
-        }
-        return nextPos;
+        return availablePositions.get(s);
     }
 
     //EFFECTS:  returns true if the move corresponds to a position
@@ -114,12 +105,8 @@ public class Board {
     //EFFECTS : returns true if the move corresponds to a position is in availablePositions
     public boolean isAnAvailableMove(String s) {
         boolean b = false;
-        for (int i = 0; i < availablePositions.size(); i++) {
-            Position p = availablePositions.get(i);
-            if (p.positionNumber.equals(s)) {
-                i = availablePositions.size();
-                b = true;
-            }
+        if (!(availablePositions.get(s) == null)) {
+            b = true;
         }
         return b;
     }
@@ -130,26 +117,22 @@ public class Board {
         Position nextPosition;
         nextPosition = getRandomAvailablePosition();
         nextPosition.fillPositionWithO();
-        availablePositions.remove(nextPosition);
+        availablePositions.remove(nextPosition.getPositionNumber());
         return nextPosition;
     }
 
     // EFFECTS: returns a random Position from the availablePositions list
     public Position getRandomAvailablePosition() {
+        List<Position> availablePositionsList = new ArrayList<>(availablePositions.values());
         Random r = new Random();
-        int i = r.nextInt(availablePositions.size());
-        return availablePositions.get(i);
+        int i = r.nextInt(availablePositionsList.size());
+        return availablePositionsList.get(i);
     }
 
     //EFFECTS : returns the symbol of the Position with the given positionNumber
     public String getPositionSymbol(String posNum) {
-        String str = "";
-        for (Position p : allPositions) {
-            if (p.positionNumber.equals(posNum)) {
-                str = p.symbol;
-            }
-        }
-        return str;
+        Position p = allPositions.get(posNum);
+        return p.getSymbol();
     }
 
     //EFFECTS: returns true if there is a tie or a win
@@ -169,7 +152,7 @@ public class Board {
 
     //EFFECTS: returns true if there are no more available positions left and no wins at all
     public boolean checkTie() {
-        return availablePositions.size() == 0 && !checkWin("X") && !checkWin("O");
+        return availablePositions.isEmpty() && !checkWin("X") && !checkWin("O");
     }
 
     //REQUIRES: sym is either "X" or "O"
@@ -177,12 +160,12 @@ public class Board {
     public boolean checkHorizontalWin(String sym) {
         boolean ans = false;
 
-        if (allPositions.get(0).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(1).symbol, allPositions.get(2).symbol);
-        } else if (allPositions.get(3).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(5).symbol);
-        } else if (allPositions.get(6).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(7).symbol, allPositions.get(8).symbol);
+        if (allPositions.get("1").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("2").symbol, allPositions.get("3").symbol);
+        } else if (allPositions.get("4").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("5").symbol, allPositions.get("6").symbol);
+        } else if (allPositions.get("7").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("8").symbol, allPositions.get("9").symbol);
         }
 
         return ans;
@@ -193,12 +176,12 @@ public class Board {
     public boolean checkVerticalWin(String sym) {
         boolean ans = false;
 
-        if (allPositions.get(0).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(3).symbol, allPositions.get(6).symbol);
-        } else if (allPositions.get(1).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(7).symbol);
-        } else if (allPositions.get(2).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(5).symbol, allPositions.get(8).symbol);
+        if (allPositions.get("1").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("4").symbol, allPositions.get("7").symbol);
+        } else if (allPositions.get("2").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("5").symbol, allPositions.get("8").symbol);
+        } else if (allPositions.get("3").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("6").symbol, allPositions.get("9").symbol);
         }
 
         return ans;
@@ -209,10 +192,10 @@ public class Board {
     public boolean checkDiagonalWin(String sym) {
         boolean ans = false;
 
-        if (allPositions.get(0).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(8).symbol);
-        } else if (allPositions.get(2).symbol.equals(sym)) {
-            ans = checkSameSymbol(sym, allPositions.get(4).symbol, allPositions.get(6).symbol);
+        if (allPositions.get("1").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("5").symbol, allPositions.get("9").symbol);
+        } else if (allPositions.get("3").symbol.equals(sym)) {
+            ans = checkSameSymbol(sym, allPositions.get("5").symbol, allPositions.get("7").symbol);
         }
 
         return ans;
@@ -259,31 +242,33 @@ public class Board {
         position9 = p;
     }
 
-    public ArrayList<Position> getAvailablePositions() {
+    public HashMap<String,Position> getAvailablePositions() {
         return availablePositions;
     }
 
-    public ArrayList<Position> getAllPositions() {
+    public HashMap<String,Position> getAllPositions() {
         return allPositions;
     }
 
     //MODIFIES: this
     //EFFECTS : clears the allPositions field, resetting and updating the field
     public void resetAllPositions() {
-        allPositions = new ArrayList<>();
+        allPositions = new HashMap<>();
         setUpList(allPositions);
     }
 
     //MODIFIES: this
     //EFFECTS : clears availablePosition field and loads in the available positions from the json file
-    public void loadJsonAvailablePositions(ArrayList<Position> list) {
-        availablePositions = new ArrayList<>();
+    public void loadJsonAvailablePositions(ArrayList<Position> jsonList) {
+        availablePositions = new HashMap<>();
         setUpList(availablePositions);
         boolean isThereAMatch;
-        for (Position p : allPositions) {
-            isThereAMatch = checkIfMatch(p, list);
+        ArrayList<Position> list = new ArrayList<>(allPositions.values());
+
+        for (Position p : list) {
+            isThereAMatch = checkIfMatch(p, jsonList);
             if (!isThereAMatch) {
-                availablePositions.remove(p);
+                availablePositions.remove(p.getPositionNumber());
             }
         }
     }
@@ -291,6 +276,7 @@ public class Board {
     //EFFECTS : returns true if the given Position has the same positionNumber as those in the list
     public boolean checkIfMatch(Position p, ArrayList<Position> list) {
         boolean b = false;
+
         for (Position jsonPosition : list) {
             if (p.positionNumber.equals(jsonPosition.positionNumber)) {
                 b = true;
@@ -312,16 +298,19 @@ public class Board {
         json.put("position7", position7.positionToJson());
         json.put("position8", position8.positionToJson());
         json.put("position9", position9.positionToJson());
-        json.put("availablePositions", listToJson(availablePositions));
+        json.put("availablePositions", mapToJson(availablePositions));
         return json;
     }
 
+
     //EFFECTS: every position in the list is json-ified and put into a jsonArray, which is returned.
-    public JSONArray listToJson(ArrayList<Position> list) {
+    public JSONArray mapToJson(HashMap<String, Position> map) {
         JSONArray jsonArray = new JSONArray();
+        ArrayList<Position> list = new ArrayList<>(map.values());
         for (Position p : list) {
             jsonArray.put(p.positionToJson());
         }
         return jsonArray;
     }
+
 }

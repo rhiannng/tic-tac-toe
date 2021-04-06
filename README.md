@@ -20,3 +20,6 @@ As a user, I want to be able to...
 - save my game halfway through
 - load my game from where I left off
 
+## *Phase 4: Task 2*
+I replaced the fields allPositions and availablePositions in the Board class from an ArrayList to a HashMap.
+

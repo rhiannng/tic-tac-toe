@@ -6,6 +6,7 @@ import model.Position;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 //represents the panel that has the game board with all the positions
 public class BoardPanel extends JPanel {
@@ -21,7 +22,9 @@ public class BoardPanel extends JPanel {
         this.game = g;
         this.positionButtonList = new ArrayList<>();
         this.constraints = new GridBagConstraints();
-        for (Position p : b.getAllPositions()) {
+        List<Position> allPositionsList = new ArrayList<>(b.getAllPositions().values());
+
+        for (Position p : allPositionsList) {
             PositionButton posButton = new PositionButton(p, b, this);
             constraints.gridx = posButton.getColumn();
             constraints.gridy = posButton.getRow();

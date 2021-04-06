@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import persistence.JsonReader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,8 +34,8 @@ class BoardTest {
         //checks that the lists initialized correctly (all elements in them)
         assertEquals(9,b.availablePositions.size());
         assertEquals(9,b.allPositions.size());
-        assertTrue(b.allPositions.contains(b.position1));
-        assertTrue(b.availablePositions.contains(b.position9));
+        assertEquals(b.position1, b.allPositions.get("1"));
+        assertEquals(b.position9, b.availablePositions.get("9"));
     }
 
     @Test
@@ -45,11 +46,11 @@ class BoardTest {
 
         //checks availablePosition's size and whether it contains the correct Positions
         assertEquals(6,b.availablePositions.size());
-        assertFalse(b.availablePositions.contains(b.position1));
-        assertFalse(b.availablePositions.contains(b.position9));
-        assertFalse(b.availablePositions.contains(b.position8));
-        assertTrue(b.availablePositions.contains(b.position2));
-        assertTrue(b.availablePositions.contains(b.position5));
+        assertNull(b.availablePositions.get("1"));
+        assertNull(b.availablePositions.get("9"));
+        assertNull(b.availablePositions.get("8"));
+        assertEquals(b.position2, b.availablePositions.get("2"));
+        assertEquals(b.position5, b.availablePositions.get("5"));
 
         //checks that the symbols are set correctly
         assertEquals(b.position1.symbol, "X");
@@ -67,11 +68,11 @@ class BoardTest {
 
         //checks availablePosition's size and whether it contains the correct Positions
         assertEquals(6,b.availablePositions.size());
-        assertFalse(b.availablePositions.contains(b.position1));
-        assertFalse(b.availablePositions.contains(b.position9));
-        assertFalse(b.availablePositions.contains(b.position8));
-        assertTrue(b.availablePositions.contains(b.position2));
-        assertTrue(b.availablePositions.contains(b.position5));
+        assertNull(b.availablePositions.get("1"));
+        assertNull(b.availablePositions.get("9"));
+        assertNull(b.availablePositions.get("8"));
+        assertEquals(b.position2, b.availablePositions.get("2"));
+        assertEquals(b.position5, b.availablePositions.get("5"));
 
         //checks that the symbols are set correctly
         assertEquals(b.position1.symbol, "X");
@@ -89,11 +90,11 @@ class BoardTest {
 
         //checks availablePosition's size and whether it contains the correct Positions
         assertEquals(6,b.availablePositions.size());
-        assertTrue(b.availablePositions.contains(b.position1));
-        assertTrue(b.availablePositions.contains(b.position9));
-        assertFalse(b.availablePositions.contains(b.position8));
-        assertFalse(b.availablePositions.contains(b.position2));
-        assertFalse(b.availablePositions.contains(b.position5));
+        assertEquals(b.position1, b.availablePositions.get("1"));
+        assertEquals(b.position9, b.availablePositions.get("9"));
+        assertNull(b.availablePositions.get("8"));
+        assertNull(b.availablePositions.get("2"));
+        assertNull(b.availablePositions.get("5"));
 
         //checks that the symbols are set correctly
         assertEquals(b.position1.symbol, " ");
@@ -155,7 +156,9 @@ class BoardTest {
         b.playerMakesAMove("6");
 
         //checks that method does not choose Positions that have been "taken"
-        assertTrue(b.availablePositions.contains(b.getRandomAvailablePosition()));
+        Position randomAvailablePosition = b.getRandomAvailablePosition();
+        String posKey = randomAvailablePosition.getPositionNumber();
+        assertEquals(randomAvailablePosition, b.availablePositions.get(posKey));
         assertNotEquals(b.position2,b.getRandomAvailablePosition());
         assertNotEquals(b.position6,b.getRandomAvailablePosition());
     }
@@ -202,15 +205,15 @@ class BoardTest {
 
     @Test
     void checkEndGameTestTie() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position6);
-        b.availablePositions.remove(b.position7);
-        b.availablePositions.remove(b.position8);
-        b.availablePositions.remove(b.position9);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("2");
+        b.availablePositions.remove("3");
+        b.availablePositions.remove("4");
+        b.availablePositions.remove("5");
+        b.availablePositions.remove("6");
+        b.availablePositions.remove("7");
+        b.availablePositions.remove("8");
+        b.availablePositions.remove("9");
 
         assertTrue(b.checkEndGame());
     }
@@ -275,15 +278,15 @@ class BoardTest {
 
     @Test
     void checkTieTestNoMovesLeftNoWin() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position6);
-        b.availablePositions.remove(b.position7);
-        b.availablePositions.remove(b.position8);
-        b.availablePositions.remove(b.position9);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("2");
+        b.availablePositions.remove("3");
+        b.availablePositions.remove("4");
+        b.availablePositions.remove("5");
+        b.availablePositions.remove("6");
+        b.availablePositions.remove("7");
+        b.availablePositions.remove("8");
+        b.availablePositions.remove("9");
 
         b.position1.fillPositionWithX();
         b.position3.fillPositionWithX();
@@ -301,12 +304,12 @@ class BoardTest {
 
     @Test
     void checkTieTestSomeMovesLeftNoWin() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("2");
+        b.availablePositions.remove("3");
+        b.availablePositions.remove("4");
+        b.availablePositions.remove("5");
+        b.availablePositions.remove("6");
 
         b.position1.fillPositionWithX();
         b.position3.fillPositionWithX();
@@ -325,24 +328,24 @@ class BoardTest {
         b.position2.fillPositionWithX();
         b.position3.fillPositionWithX();
 
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("2");
+        b.availablePositions.remove("3");
 
         assertFalse(b.checkTie());
     }
 
     @Test
     void checkTieNoMovesLeftSomeoneWon() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position6);
-        b.availablePositions.remove(b.position7);
-        b.availablePositions.remove(b.position8);
-        b.availablePositions.remove(b.position9);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("2");
+        b.availablePositions.remove("3");
+        b.availablePositions.remove("4");
+        b.availablePositions.remove("5");
+        b.availablePositions.remove("6");
+        b.availablePositions.remove("7");
+        b.availablePositions.remove("8");
+        b.availablePositions.remove("9");
 
         b.position1.fillPositionWithO();
         b.position4.fillPositionWithO();
@@ -360,15 +363,15 @@ class BoardTest {
 
     @Test
     void checkTieTestNoMovesLeftBothWin() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position6);
-        b.availablePositions.remove(b.position7);
-        b.availablePositions.remove(b.position8);
-        b.availablePositions.remove(b.position9);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("2");
+        b.availablePositions.remove("3");
+        b.availablePositions.remove("4");
+        b.availablePositions.remove("5");
+        b.availablePositions.remove("6");
+        b.availablePositions.remove("7");
+        b.availablePositions.remove("8");
+        b.availablePositions.remove("9");
 
         b.position1.fillPositionWithX();
         b.position2.fillPositionWithX();
@@ -386,12 +389,12 @@ class BoardTest {
 
     @Test
     void checkTieTestSomeMovesLeftBothWin() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position2);
-        b.availablePositions.remove(b.position3);
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position6);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("2");
+        b.availablePositions.remove("3");
+        b.availablePositions.remove("4");
+        b.availablePositions.remove("5");
+        b.availablePositions.remove("6");
 
         b.position1.fillPositionWithX();
         b.position2.fillPositionWithX();
@@ -521,9 +524,9 @@ class BoardTest {
 
     @Test
     void resetAllPositionsTest() {
-        b.allPositions.remove(b.position1);
-        b.allPositions.remove(b.position2);
-        b.allPositions.remove(b.position9);
+        b.allPositions.remove("1");
+        b.allPositions.remove("2");
+        b.allPositions.remove("9");
 
         b.resetAllPositions();
 
@@ -540,25 +543,27 @@ class BoardTest {
 
         b.loadJsonAvailablePositions(posList);
         assertEquals(4, b.availablePositions.size());
-        assertTrue(b.availablePositions.contains(b.position1));
-        assertTrue(b.availablePositions.contains(b.position2));
-        assertTrue(b.availablePositions.contains(b.position3));
-        assertTrue(b.availablePositions.contains(b.position4));
-        assertFalse(b.availablePositions.contains(b.position5));
-        assertFalse(b.availablePositions.contains(b.position6));
+        assertEquals(b.position1, b.availablePositions.get("1"));
+        assertEquals(b.position2, b.availablePositions.get("2"));
+        assertEquals(b.position3, b.availablePositions.get("3"));
+        assertEquals(b.position4, b.availablePositions.get("4"));
+        assertNull(b.availablePositions.get("5"));
+        assertNull(b.availablePositions.get("6"));
     }
 
     @Test
     void checkIfMatchTest() {
-        b.availablePositions.remove(b.position1);
-        b.availablePositions.remove(b.position5);
-        b.availablePositions.remove(b.position7);
+        b.availablePositions.remove("1");
+        b.availablePositions.remove("5");
+        b.availablePositions.remove("7");
 
-        assertFalse(b.checkIfMatch(b.position1, b.availablePositions));
-        assertFalse(b.checkIfMatch(b.position5, b.availablePositions));
-        assertFalse(b.checkIfMatch(b.position7, b.availablePositions));
-        assertTrue(b.checkIfMatch(b.position2, b.availablePositions));
-        assertTrue(b.checkIfMatch(b.position3, b.availablePositions));
+        ArrayList<Position> list = new ArrayList<>(b.availablePositions.values());
+
+        assertFalse(b.checkIfMatch(b.position1, list));
+        assertFalse(b.checkIfMatch(b.position5, list));
+        assertFalse(b.checkIfMatch(b.position7, list));
+        assertTrue(b.checkIfMatch(b.position2, list));
+        assertTrue(b.checkIfMatch(b.position3, list));
     }
 
     @Test
@@ -567,21 +572,21 @@ class BoardTest {
         b.position6.fillPositionWithX();
         b.position7.fillPositionWithO();
 
-        b.availablePositions.remove(b.position4);
-        b.availablePositions.remove(b.position6);
-        b.availablePositions.remove(b.position7);
+        b.availablePositions.remove("4");
+        b.availablePositions.remove("6");
+        b.availablePositions.remove("7");
 
         JSONObject json = b.toJson();
         JsonReader reader = new JsonReader("");
         b = reader.parseBoard(json);
 
         assertEquals(6,b.availablePositions.size());
-        assertTrue(b.availablePositions.contains(b.position1));
-        assertTrue(b.availablePositions.contains(b.position2));
-        assertTrue(b.availablePositions.contains(b.position3));
-        assertFalse(b.availablePositions.contains(b.position4));
-        assertFalse(b.availablePositions.contains(b.position6));
-        assertFalse(b.availablePositions.contains(b.position7));
+        assertEquals(b.position1, b.availablePositions.get("1"));
+        assertEquals(b.position2, b.availablePositions.get("2"));
+        assertEquals(b.position3, b.availablePositions.get("3"));
+        assertNull(b.availablePositions.get("4"));
+        assertNull(b.availablePositions.get("6"));
+        assertNull(b.availablePositions.get("7"));
         assertEquals("X",b.position4.symbol);
         assertEquals("X",b.position6.symbol);
         assertEquals("O",b.position7.symbol);
