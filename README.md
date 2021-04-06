@@ -23,3 +23,15 @@ As a user, I want to be able to...
 ## *Phase 4: Task 2*
 I replaced the fields allPositions and availablePositions in the Board class from an ArrayList to a HashMap.
 
+## *Phase 4: Task 3*
+If I had more time to work on the project, I would make the following refactoring changes:
+
+- Remove the fields position1 - position9 in the Board class as there is too much duplication in the these fields and 
+refactor the methods pertaining to them
+- The Board class has too many responsibilities; include a new class BoardManager to make all player moves and check for
+ end game scenarios
+- The Game class has both the console and graphic ui. Either completely get rid of the console ui or separate the 
+graphic and console ui into different classes
+- The PositionButton's constructor checks for end game scenarios, and as a result there are too many associations with 
+the PositionButton class. Similar to the second point, maybe have a BoardManager/GameManager to check on end game
+scenarios and reduce associations in the class
